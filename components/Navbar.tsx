@@ -827,14 +827,14 @@ const countries = [
 /* ================= ANIMATED LOGO ================= */
 const AnimatedLogo: React.FC<{ themeColor: string }> = ({ themeColor }) => {
   return (
-    <div className="relative w-12 h-12 flex items-center justify-center shrink-0">
+    <div className="relative w-10 h-10 md:w-12 md:h-12 flex items-center justify-center shrink-0">
       <div className="tick-orbit absolute inset-0">
         <span className="tick top" style={{ borderColor: themeColor }} />
         <span className="tick right" />
         <span className="tick bottom" />
         <span className="tick left" />
       </div>
-      <span className="relative z-10 font-extrabold text-black text-sm">B</span>
+      <span className="relative z-10 font-extrabold text-black text-[10px] md:text-sm">B</span>
     </div>
   );
 };
@@ -881,12 +881,15 @@ const Navbar: React.FC = () => {
         .tick-orbit { position: absolute; inset: 0; animation: rotateTicks 6s linear infinite; }
         .tick { 
           position: absolute; 
-          width: 14px; 
-          height: 22px; 
-          border-right: 5px solid #000; 
-          border-bottom: 5px solid #000; 
-          border-radius: 2px; 
+          width: 10px; 
+          height: 16px; 
+          border-right: 4px solid #000; 
+          border-bottom: 4px solid #000; 
+          border-radius: 1px; 
           transition: border-color 0.5s ease; 
+        }
+        @media (min-width: 768px) {
+          .tick { width: 14px; height: 22px; border-right-width: 5px; border-bottom-width: 5px; }
         }
         .tick.top { top: 2px; left: 50%; transform: translateX(-50%) rotate(45deg); }
         .tick.right { right: 2px; top: 50%; transform: translateY(-50%) rotate(135deg); }
@@ -895,23 +898,22 @@ const Navbar: React.FC = () => {
       `}</style>
 
       <header className="fixed top-0 w-full z-50 bg-white border-b border-gray-200 shadow-sm">
-        {/* Dynamic Top Strip */}
         <div className="w-full h-[3px] transition-all duration-500" style={{ backgroundColor: selectedCountry.color }} />
 
         <div className="max-w-7xl mx-auto px-4">
-          <nav className="flex items-center justify-between h-20">
+          <nav className="flex items-center justify-between h-16 md:h-20">
             
-            {/* LOGO (Extreme Left) */}
+            {/* LOGO */}
             <Link to="/" className="flex items-center gap-2 shrink-0">
               <AnimatedLogo themeColor={selectedCountry.color} />
-              <span className="font-bold text-lg tracking-tight">
+              <span className="font-bold text-base md:text-lg tracking-tight">
                 <span className="text-black">BOLD</span>
                 <span style={{ color: selectedCountry.color }} className="transition-colors duration-500">VIBE</span>
               </span>
             </Link>
 
-            {/* RIGHT GROUP (Nav Links + Country Selector) */}
-            <div className="flex items-center gap-6 md:gap-8">
+            {/* RIGHT GROUP */}
+            <div className="flex items-center gap-2 md:gap-8">
               
               {/* Desktop Nav Links */}
               <div className="hidden lg:flex items-center space-x-6">
@@ -922,43 +924,42 @@ const Navbar: React.FC = () => {
                 ))}
               </div>
 
-              {/* Country Selector */}
+              {/* Country Selector (Positioned before Menu on Mobile) */}
               <div ref={dropdownRef} className="relative flex items-center">
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
-                  className="flex items-center gap-2 px-3 py-1.5 rounded-xl border-2 transition-all duration-500"
+                  className="flex items-center gap-1.5 px-2 py-1 md:px-3 md:py-1.5 rounded-lg md:rounded-xl border-[1.5px] md:border-2 transition-all duration-500"
                   style={{ 
                     borderColor: selectedCountry.border,
                     backgroundColor: selectedCountry.bg,
                     color: selectedCountry.color 
                   }}
                 >
-                  <Globe size={14} />
-                  <div className="flex items-center gap-1.5 text-[10px] md:text-[13px] font-bold uppercase tracking-tight">
+                  <Globe size={12} className="md:w-4 md:h-4" />
+                  <div className="flex items-center gap-1 text-[9px] md:text-[13px] font-bold uppercase tracking-tight">
                     <span>{selectedCountry.flag}</span>
                     <span className="hidden sm:inline">{selectedCountry.name}</span>
                     <span className="opacity-30">|</span>
                     <span className="font-mono">{getFormatTime(selectedCountry.timezone)}</span>
                   </div>
-                  <ChevronDown size={14} className={`transition-transform duration-300 ${dropdownOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown size={10} className={`md:w-3 md:h-3 transition-transform duration-300 ${dropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
 
-                {/* Dropdown menu */}
                 {dropdownOpen && (
-                  <div className="absolute top-full right-0 mt-2 w-56 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-[60]">
-                    <div className="p-1.5 flex flex-col gap-1">
+                  <div className="absolute top-full right-0 mt-2 w-48 md:w-56 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden z-[60]">
+                    <div className="p-1 flex flex-col gap-0.5">
                       {countries.map((c) => (
                         <button
                           key={c.name}
                           onClick={() => { setSelectedCountry(c); setDropdownOpen(false); }}
-                          className="flex items-center justify-between px-3 py-2.5 rounded-xl transition-all hover:bg-gray-50"
+                          className="flex items-center justify-between px-3 py-2 rounded-lg transition-all hover:bg-gray-50"
                           style={{ backgroundColor: selectedCountry.name === c.name ? c.bg : '' }}
                         >
-                          <div className="flex items-center gap-3">
-                            <span className="text-lg">{c.flag}</span>
-                            <span className="text-sm font-bold" style={{ color: selectedCountry.name === c.name ? c.color : '#374151' }}>{c.name}</span>
+                          <div className="flex items-center gap-2">
+                            <span className="text-base">{c.flag}</span>
+                            <span className="text-xs md:text-sm font-bold" style={{ color: selectedCountry.name === c.name ? c.color : '#374151' }}>{c.name}</span>
                           </div>
-                          <span className="text-[10px] font-mono text-gray-400">{getFormatTime(c.timezone)}</span>
+                          <span className="text-[9px] font-mono text-gray-400">{getFormatTime(c.timezone)}</span>
                         </button>
                       ))}
                     </div>
@@ -968,7 +969,7 @@ const Navbar: React.FC = () => {
 
               {/* Mobile Menu Toggle */}
               <button onClick={() => setIsOpen(true)} className="lg:hidden text-black p-1">
-                <Menu size={28} />
+                <Menu size={24} />
               </button>
             </div>
           </nav>
@@ -977,7 +978,7 @@ const Navbar: React.FC = () => {
 
       {/* MOBILE DRAWER */}
       <div className={`fixed inset-0 bg-black/40 z-[100] transition-opacity lg:hidden ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"}`} onClick={() => setIsOpen(false)} />
-      <aside className={`fixed top-0 right-0 h-full w-[280px] bg-white z-[110] transform transition-transform duration-300 lg:hidden ${isOpen ? "translate-x-0" : "translate-x-full"}`}>
+      <aside className={`fixed top-0 right-0 h-full w-[260px] bg-white z-[110] transform transition-transform duration-300 lg:hidden ${isOpen ? "translate-x-0" : "translate-x-full"}`}>
         <div className="flex flex-col h-full p-6">
           <div className="flex items-center justify-between mb-8 border-b pb-4">
             <span className="font-bold text-lg">BOLD<span style={{ color: selectedCountry.color }}>VIBE</span></span>
@@ -985,7 +986,7 @@ const Navbar: React.FC = () => {
           </div>
           <nav className="flex flex-col gap-6">
             {navLinks.map((link) => (
-              <Link key={link.name} to={link.href} onClick={() => setIsOpen(false)} className="text-gray-900 hover:text-black text-lg font-bold">{link.name}</Link>
+              <Link key={link.name} to={link.href} onClick={() => setIsOpen(false)} className="text-gray-900 hover:text-black text-lg font-bold transition-colors">{link.name}</Link>
             ))}
           </nav>
         </div>
