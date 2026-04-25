@@ -717,7 +717,6 @@
 // };
 
 // export default Footer;
-
 import React from "react";
 import {
   Mail,
@@ -786,17 +785,15 @@ const Footer: React.FC = () => {
       `}</style>
 
       <footer className="relative bg-gray-800 text-white overflow-hidden">
-        
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl"></div>
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-600/10 rounded-full blur-3xl"></div>
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Main Grid: Changed to grid-cols-2 for mobile */}
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10 py-12">
             
-            {/* Brand Section - Takes full width on mobile for better look */}
+            {/* Brand Section */}
             <div className="col-span-2 lg:col-span-1 space-y-6">
               <div className="flex items-center gap-3">
                 <AnimatedLogo />
@@ -808,7 +805,6 @@ const Footer: React.FC = () => {
               <p className="text-gray-400 text-sm leading-relaxed max-w-xs">
                 Empowering businesses with cutting-edge technology solutions.
               </p>
-              {/* Social Icons */}
               <div className="flex flex-wrap gap-3">
                 <a href="https://www.instagram.com/boldvibetechnologiespvt" target="_blank" rel="noreferrer" className="w-8 h-8 bg-gray-700 hover:bg-pink-600 rounded-full flex items-center justify-center transition-all">
                   <Instagram className="w-4 h-4" />
@@ -825,7 +821,7 @@ const Footer: React.FC = () => {
               </div>
             </div>
 
-            {/* Quick Links */}
+            {/* Links */}
             <div className="col-span-1">
               <h4 className="text-white font-bold text-base mb-4 border-b border-orange-500/30 pb-1 inline-block">
                 Links
@@ -854,7 +850,7 @@ const Footer: React.FC = () => {
               </ul>
             </div>
 
-            {/* Get In Touch - Forced to col-span-2 on mobile if it gets too cramped, or kept as 1 */}
+            {/* Get In Touch */}
             <div className="col-span-2 sm:col-span-1">
               <h4 className="text-white font-bold text-base mb-4 border-b border-orange-500/30 pb-1 inline-block">
                 Get In Touch
@@ -878,9 +874,7 @@ const Footer: React.FC = () => {
 
           <div className="border-t border-gray-700/50 py-6">
             <div className="flex flex-col items-center gap-2 text-gray-500 text-xs text-center">
-              <p className="flex items-center gap-1">
-                © 2025 BoldVibe Technologies.
-              </p>
+              <p>© 2025 BoldVibe Technologies.</p>
               <p className="flex items-center gap-1">
                 Made with <Heart className="w-3 h-3 text-red-500 fill-current" /> in India
               </p>
