@@ -718,177 +718,178 @@
 
 // export default Footer;
 
-import React, { useEffect, useState, useRef } from "react";
-import { Menu, X, Globe, ChevronDown } from "lucide-react";
-import { Link } from "react-router-dom";
+import React from "react";
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Instagram,
+  Linkedin,
+  MessageCircle,
+  Heart,
+} from "lucide-react";
+import { HashLink } from "react-router-hash-link";
+import { FaFacebookF } from "react-icons/fa";
 
-const countries = [
-  { name: "India",     flag: "🇮🇳", timezone: "Asia/Kolkata",     color: "#ea580c", bg: "#fff7ed", border: "#fed7aa" },
-  { name: "USA",       flag: "🇺🇸", timezone: "America/New_York",   color: "#2563eb", bg: "#eff6ff", border: "#bfdbfe" },
-  { name: "UK",        flag: "🇬🇧", timezone: "Europe/London",      color: "#dc2626", bg: "#fef2f2", border: "#fecaca" },
-  { name: "Germany",   flag: "🇩🇪", timezone: "Europe/Berlin",      color: "#ca8a04", bg: "#fefce8", border: "#fde68a" },
-  { name: "Australia", flag: "🇦🇺", timezone: "Australia/Sydney",   color: "#16a34a", bg: "#f0fdf4", border: "#bbf7d0" },
-  { name: "Japan",     flag: "🇯🇵", timezone: "Asia/Tokyo",         color: "#db2777", bg: "#fdf2f8", border: "#fbcfe8" },
-  { name: "UAE",       flag: "🇦🇪", timezone: "Asia/Dubai",         color: "#059669", bg: "#ecfdf5", border: "#a7f3d0" },
+interface QuickLink {
+  name: string;
+  path: string;
+}
+
+const quickLinks: QuickLink[] = [
+  { name: "Home", path: "/#home" },
+  { name: "About Us", path: "/#values" },
+  { name: "Services", path: "/#services" },
+  { name: "Projects", path: "/#projects" },
+  { name: "Our Team", path: "/#team" },
 ];
 
 const AnimatedLogo: React.FC = () => (
-  <div className="relative w-10 h-10 md:w-12 md:h-12 flex items-center justify-center shrink-0">
+  <div className="relative w-10 h-10 flex items-center justify-center">
     <div className="tick-orbit absolute inset-0">
-      <span className="tick top" style={{ borderColor: "#000" }} />
-      <span className="tick right" style={{ borderColor: "#000" }} />
-      <span className="tick bottom" style={{ borderColor: "#000" }} />
-      <span className="tick left" style={{ borderColor: "#000" }} />
+      <span className="tick top orange-tick" />
+      <span className="tick right" />
+      <span className="tick bottom" />
+      <span className="tick left" />
     </div>
-    <span className="relative z-10 font-extrabold text-black text-[10px] md:text-xs">B</span>
+    <span className="relative z-10 font-extrabold text-black text-xs">
+      B
+    </span>
   </div>
 );
 
-const Navbar: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState(countries[0]);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  const navLinks = [
-    { name: "Home", href: "/" },
-    { name: "About", href: "/about" },
-    { name: "Services", href: "/services" },
-    { name: "Projects", href: "/projects" },
-    { name: "Contact", href: "/contact" },
-  ];
-
-  const getFormatTime = (timezone: string) => {
-    return new Date().toLocaleTimeString("en-US", {
-      timeZone: timezone, hour: "2-digit", minute: "2-digit", hour12: true,
-    });
-  };
-
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setDropdownOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, []);
-
+const Footer: React.FC = () => {
   return (
     <>
       <style>{`
-        @keyframes rotateTicks { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-        .tick-orbit { position: absolute; inset: 0; animation: rotateTicks 6s linear infinite; }
-        .tick { position: absolute; width: 8px; height: 14px; border-right: 3px solid #000; border-bottom: 3px solid #000; }
-        @media (min-width: 768px) { .tick { width: 10px; height: 16px; border-right: 4px solid #000; border-bottom: 4px solid #000; } }
-        .tick.top { top: 0px; left: 50%; transform: translateX(-50%) rotate(45deg); }
-        .tick.right { right: 0px; top: 50%; transform: translateY(-50%) rotate(135deg); }
-        .tick.bottom { bottom: 0px; left: 50%; transform: translateX(-50%) rotate(225deg); }
-        .tick.left { left: 0px; top: 50%; transform: translateY(-50%) rotate(315deg); }
+        @keyframes rotateTicks {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        .tick-orbit {
+          position: absolute;
+          inset: 0;
+          animation: rotateTicks 6s linear infinite;
+        }
+        .tick {
+          position: absolute;
+          width: 8px;
+          height: 12px;
+          border-right: 3px solid #000;
+          border-bottom: 3px solid #000;
+        }
+        .orange-tick { border-color: #f97316; }
+        .tick.top { top: -1px; left: 50%; transform: translateX(-50%) rotate(45deg); }
+        .tick.right { right: -1px; top: 50%; transform: translateY(-50%) rotate(135deg); }
+        .tick.bottom { bottom: -1px; left: 50%; transform: translateX(-50%) rotate(225deg); }
+        .tick.left { left: -1px; top: 50%; transform: translateY(-50%) rotate(315deg); }
       `}</style>
 
-      <header className="fixed top-0 w-full z-50 bg-white border-b border-gray-100 shadow-sm">
-        {/* Top Progress Line */}
-        <div className="w-full h-[2px] transition-all duration-500" style={{ backgroundColor: selectedCountry.color }} />
+      <footer className="relative bg-gray-800 text-white overflow-hidden">
         
-        <div className="max-w-7xl mx-auto px-4 h-16 md:h-20 flex items-center justify-between">
-          
-          {/* 1. Left: Logo & Brand */}
-          <div className="flex items-center gap-4 md:gap-6">
-            <Link to="/" className="flex items-center gap-2 shrink-0">
-              <AnimatedLogo />
-              <span className="font-black text-sm md:text-lg">
-                <span className="text-black uppercase">Bold</span>
-                <span style={{ color: selectedCountry.color }} className="ml-1 uppercase">Vibe</span>
-              </span>
-            </Link>
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 left-0 w-64 h-64 bg-purple-600/10 rounded-full blur-3xl"></div>
+        </div>
 
-            {/* Desktop Links */}
-            <div className="hidden lg:flex items-center space-x-6 ml-4">
-              {navLinks.map((link) => (
-                <Link key={link.name} to={link.href} className="text-[13px] font-bold text-gray-600 hover:text-black transition">
-                  {link.name}
-                </Link>
-              ))}
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Main Grid: Changed to grid-cols-2 for mobile */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-10 py-12">
+            
+            {/* Brand Section - Takes full width on mobile for better look */}
+            <div className="col-span-2 lg:col-span-1 space-y-6">
+              <div className="flex items-center gap-3">
+                <AnimatedLogo />
+                <span className="font-black text-xl">
+                  <span className="text-white">BOLD</span>
+                  <span className="bg-gradient-to-r from-orange-500 to-orange-600 bg-clip-text text-transparent">VIBE</span>
+                </span>
+              </div>
+              <p className="text-gray-400 text-sm leading-relaxed max-w-xs">
+                Empowering businesses with cutting-edge technology solutions.
+              </p>
+              {/* Social Icons */}
+              <div className="flex flex-wrap gap-3">
+                <a href="https://www.instagram.com/boldvibetechnologiespvt" target="_blank" rel="noreferrer" className="w-8 h-8 bg-gray-700 hover:bg-pink-600 rounded-full flex items-center justify-center transition-all">
+                  <Instagram className="w-4 h-4" />
+                </a>
+                <a href="https://www.linkedin.com/in/bold-vibe-2479283a4" target="_blank" rel="noreferrer" className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center transition-all">
+                  <Linkedin className="w-4 h-4" />
+                </a>
+                <a href="https://wa.me/916265259661" target="_blank" rel="noreferrer" className="w-8 h-8 bg-gray-700 hover:bg-green-500 rounded-full flex items-center justify-center transition-all">
+                  <MessageCircle className="w-4 h-4" />
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=61586646795488" target="_blank" rel="noreferrer" className="w-8 h-8 bg-blue-700 rounded-full flex items-center justify-center transition-all">
+                  <FaFacebookF className="w-3 h-3" />
+                </a>
+              </div>
+            </div>
+
+            {/* Quick Links */}
+            <div className="col-span-1">
+              <h4 className="text-white font-bold text-base mb-4 border-b border-orange-500/30 pb-1 inline-block">
+                Links
+              </h4>
+              <ul className="space-y-2">
+                {quickLinks.map((link) => (
+                  <li key={link.name}>
+                    <HashLink smooth to={link.path} className="text-gray-400 hover:text-white text-sm transition-all">
+                      {link.name}
+                    </HashLink>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Services */}
+            <div className="col-span-1">
+              <h4 className="text-white font-bold text-base mb-4 border-b border-orange-500/30 pb-1 inline-block">
+                Services
+              </h4>
+              <ul className="space-y-2 text-gray-400 text-sm">
+                <li className="hover:text-white">Web Dev</li>
+                <li className="hover:text-white">App Dev</li>
+                <li className="hover:text-white">AI Solutions</li>
+                <li className="hover:text-white">Chatbots</li>
+              </ul>
+            </div>
+
+            {/* Get In Touch - Forced to col-span-2 on mobile if it gets too cramped, or kept as 1 */}
+            <div className="col-span-2 sm:col-span-1">
+              <h4 className="text-white font-bold text-base mb-4 border-b border-orange-500/30 pb-1 inline-block">
+                Get In Touch
+              </h4>
+              <ul className="space-y-3 text-gray-400 text-sm">
+                <li className="flex items-start gap-3 group">
+                  <Mail className="w-4 h-4 text-orange-500 shrink-0 mt-0.5" />
+                  <span className="break-all group-hover:text-white">info@boldvibetech.com</span>
+                </li>
+                <li className="flex items-center gap-3 group">
+                  <Phone className="w-4 h-4 text-orange-500 shrink-0" />
+                  <span className="group-hover:text-white">+91 6265259661</span>
+                </li>
+                <li className="flex items-start gap-3 group">
+                  <MapPin className="w-4 h-4 text-orange-500 shrink-0 mt-0.5" />
+                  <span className="group-hover:text-white">Indore, MP, India</span>
+                </li>
+              </ul>
             </div>
           </div>
 
-          {/* 2. Right: Country & Menu */}
-          <div className="flex items-center gap-2 md:gap-4">
-            
-            {/* Country Selector (Compact Size) */}
-            <div ref={dropdownRef} className="relative">
-              <button
-                onClick={() => setDropdownOpen(!dropdownOpen)}
-                className="flex items-center gap-2 px-2 md:px-3 py-1 rounded-lg border transition-all text-[10px] md:text-xs font-bold"
-                style={{ borderColor: selectedCountry.border, backgroundColor: selectedCountry.bg, color: selectedCountry.color }}
-              >
-                <Globe size={12} />
-                <span>{selectedCountry.flag} <span className="hidden xs:inline">{selectedCountry.name}</span></span>
-                <span className="opacity-30">|</span>
-                <span className="font-mono">{getFormatTime(selectedCountry.timezone)}</span>
-                <ChevronDown size={12} className={dropdownOpen ? 'rotate-180' : ''} />
-              </button>
-
-              {dropdownOpen && (
-                <div className="absolute top-full right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-[60]">
-                  {countries.map((c) => (
-                    <button
-                      key={c.name}
-                      onClick={() => { setSelectedCountry(c); setDropdownOpen(false); }}
-                      className="w-full flex items-center justify-between px-3 py-2 hover:bg-gray-50 text-left"
-                      style={{ backgroundColor: selectedCountry.name === c.name ? c.bg : '' }}
-                    >
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm">{c.flag}</span>
-                        <span className="font-bold text-xs" style={{ color: selectedCountry.name === c.name ? c.color : '#374151' }}>{c.name}</span>
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              )}
+          <div className="border-t border-gray-700/50 py-6">
+            <div className="flex flex-col items-center gap-2 text-gray-500 text-xs text-center">
+              <p className="flex items-center gap-1">
+                © 2025 BoldVibe Technologies.
+              </p>
+              <p className="flex items-center gap-1">
+                Made with <Heart className="w-3 h-3 text-red-500 fill-current" /> in India
+              </p>
             </div>
-
-            {/* Mobile Menu Trigger */}
-            <button 
-              onClick={() => setIsOpen(true)} 
-              className="lg:hidden p-2 text-gray-700 hover:bg-gray-100 rounded-lg transition"
-            >
-              <Menu size={24} />
-            </button>
           </div>
         </div>
-      </header>
-
-      {/* MOBILE DRAWER (Fixed) */}
-      <div className={`fixed inset-0 z-[100] ${isOpen ? "visible" : "invisible"}`}>
-        <div 
-          className={`absolute inset-0 bg-black/30 backdrop-blur-sm transition-opacity duration-300 ${isOpen ? "opacity-100" : "opacity-0"}`} 
-          onClick={() => setIsOpen(false)} 
-        />
-        <aside className={`absolute right-0 top-0 h-full w-[280px] bg-white shadow-2xl transition-transform duration-300 ${isOpen ? "translate-x-0" : "translate-x-full"}`}>
-          <div className="p-6">
-            <div className="flex items-center justify-between mb-8">
-              <span className="font-black text-gray-900 tracking-tight">NAVIGATION</span>
-              <button onClick={() => setIsOpen(false)} className="p-2 bg-gray-50 rounded-full text-gray-500"><X size={20} /></button>
-            </div>
-            <nav className="flex flex-col gap-6">
-              {navLinks.map((link) => (
-                <Link 
-                  key={link.name} 
-                  to={link.href} 
-                  onClick={() => setIsOpen(false)} 
-                  className="text-lg font-bold text-gray-800 hover:text-black flex items-center justify-between group"
-                >
-                  {link.name}
-                  <span className="w-1.5 h-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-all" style={{ backgroundColor: selectedCountry.color }} />
-                </Link>
-              ))}
-            </nav>
-          </div>
-        </aside>
-      </div>
+      </footer>
     </>
   );
 };
-export default Navbar;
+
+export default Footer;
