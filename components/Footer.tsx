@@ -718,7 +718,6 @@
 
 // export default Footer;
 
-
 import React, { useEffect, useState, useRef } from "react";
 import { Menu, X, Globe, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -733,16 +732,15 @@ const countries = [
   { name: "UAE",       flag: "🇦🇪", timezone: "Asia/Dubai",         color: "#059669", bg: "#ecfdf5", border: "#a7f3d0" },
 ];
 
-/* ================= YOUR PROVIDED LOGO DESIGN ================= */
 const AnimatedLogo: React.FC = () => (
-  <div className="relative w-12 h-12 flex items-center justify-center">
+  <div className="relative w-10 h-10 md:w-12 md:h-12 flex items-center justify-center shrink-0">
     <div className="tick-orbit absolute inset-0">
       <span className="tick top" style={{ borderColor: "#000" }} />
       <span className="tick right" style={{ borderColor: "#000" }} />
       <span className="tick bottom" style={{ borderColor: "#000" }} />
       <span className="tick left" style={{ borderColor: "#000" }} />
     </div>
-    <span className="relative z-10 font-extrabold text-black text-sm">B</span>
+    <span className="relative z-10 font-extrabold text-black text-[10px] md:text-xs">B</span>
   </div>
 );
 
@@ -751,6 +749,14 @@ const Navbar: React.FC = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [selectedCountry, setSelectedCountry] = useState(countries[0]);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const navLinks = [
+    { name: "Home", href: "/" },
+    { name: "About", href: "/about" },
+    { name: "Services", href: "/services" },
+    { name: "Projects", href: "/projects" },
+    { name: "Contact", href: "/contact" },
+  ];
 
   const getFormatTime = (timezone: string) => {
     return new Date().toLocaleTimeString("en-US", {
@@ -773,62 +779,115 @@ const Navbar: React.FC = () => {
       <style>{`
         @keyframes rotateTicks { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
         .tick-orbit { position: absolute; inset: 0; animation: rotateTicks 6s linear infinite; }
-        .tick { position: absolute; width: 10px; height: 16px; border-right: 4px solid #000; border-bottom: 4px solid #000; }
-        .tick.top { top: -1px; left: 50%; transform: translateX(-50%) rotate(45deg); }
-        .tick.right { right: -1px; top: 50%; transform: translateY(-50%) rotate(135deg); }
-        .tick.bottom { bottom: -1px; left: 50%; transform: translateX(-50%) rotate(225deg); }
-        .tick.left { left: -1px; top: 50%; transform: translateY(-50%) rotate(315deg); }
+        .tick { position: absolute; width: 8px; height: 14px; border-right: 3px solid #000; border-bottom: 3px solid #000; }
+        @media (min-width: 768px) { .tick { width: 10px; height: 16px; border-right: 4px solid #000; border-bottom: 4px solid #000; } }
+        .tick.top { top: 0px; left: 50%; transform: translateX(-50%) rotate(45deg); }
+        .tick.right { right: 0px; top: 50%; transform: translateY(-50%) rotate(135deg); }
+        .tick.bottom { bottom: 0px; left: 50%; transform: translateX(-50%) rotate(225deg); }
+        .tick.left { left: 0px; top: 50%; transform: translateY(-50%) rotate(315deg); }
       `}</style>
 
-      <header className="fixed top-0 w-full z-50 bg-white border-b border-gray-200 shadow-sm">
-        <div className="w-full h-[3px] transition-all duration-500" style={{ backgroundColor: selectedCountry.color }} />
+      <header className="fixed top-0 w-full z-50 bg-white border-b border-gray-100 shadow-sm">
+        {/* Top Progress Line */}
+        <div className="w-full h-[2px] transition-all duration-500" style={{ backgroundColor: selectedCountry.color }} />
+        
         <div className="max-w-7xl mx-auto px-4 h-16 md:h-20 flex items-center justify-between">
           
-          {/* Logo Section */}
-          <Link to="/" className="flex items-center gap-3 shrink-0">
-            <AnimatedLogo />
-            <span className="font-black text-xl">
-              <span className="text-black">BOLD</span>
-              <span style={{ color: selectedCountry.color }} className="transition-colors ml-1">VIBE</span>
-            </span>
-          </Link>
+          {/* 1. Left: Logo & Brand */}
+          <div className="flex items-center gap-4 md:gap-6">
+            <Link to="/" className="flex items-center gap-2 shrink-0">
+              <AnimatedLogo />
+              <span className="font-black text-sm md:text-lg">
+                <span className="text-black uppercase">Bold</span>
+                <span style={{ color: selectedCountry.color }} className="ml-1 uppercase">Vibe</span>
+              </span>
+            </Link>
 
-          {/* Country Selector (Visible on all devices) */}
-          <div ref={dropdownRef} className="relative flex items-center">
-            <button
-              onClick={() => setDropdownOpen(!dropdownOpen)}
-              className="flex items-center gap-2 px-3 py-1.5 rounded-xl border-2 transition-all text-xs font-bold"
-              style={{ borderColor: selectedCountry.border, backgroundColor: selectedCountry.bg, color: selectedCountry.color }}
-            >
-              <Globe size={14} />
-              <span>{selectedCountry.flag} <span className="hidden sm:inline">{selectedCountry.name}</span></span>
-              <span className="opacity-30">|</span>
-              <span className="font-mono">{getFormatTime(selectedCountry.timezone)}</span>
-              <ChevronDown size={14} className={dropdownOpen ? 'rotate-180' : ''} />
-            </button>
-
-            {dropdownOpen && (
-              <div className="absolute top-full right-0 mt-2 w-56 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-[60]">
-                {countries.map((c) => (
-                  <button
-                    key={c.name}
-                    onClick={() => { setSelectedCountry(c); setDropdownOpen(false); }}
-                    className="w-full flex items-center justify-between px-4 py-3 hover:bg-gray-50 transition-all"
-                    style={{ backgroundColor: selectedCountry.name === c.name ? c.bg : '' }}
-                  >
-                    <div className="flex items-center gap-3">
-                      <span>{c.flag}</span>
-                      <span className="font-bold text-gray-700" style={{ color: selectedCountry.name === c.name ? c.color : '' }}>{c.name}</span>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            )}
+            {/* Desktop Links */}
+            <div className="hidden lg:flex items-center space-x-6 ml-4">
+              {navLinks.map((link) => (
+                <Link key={link.name} to={link.href} className="text-[13px] font-bold text-gray-600 hover:text-black transition">
+                  {link.name}
+                </Link>
+              ))}
+            </div>
           </div>
 
-          <button onClick={() => setIsOpen(true)} className="lg:hidden p-2"><Menu size={24} /></button>
+          {/* 2. Right: Country & Menu */}
+          <div className="flex items-center gap-2 md:gap-4">
+            
+            {/* Country Selector (Compact Size) */}
+            <div ref={dropdownRef} className="relative">
+              <button
+                onClick={() => setDropdownOpen(!dropdownOpen)}
+                className="flex items-center gap-2 px-2 md:px-3 py-1 rounded-lg border transition-all text-[10px] md:text-xs font-bold"
+                style={{ borderColor: selectedCountry.border, backgroundColor: selectedCountry.bg, color: selectedCountry.color }}
+              >
+                <Globe size={12} />
+                <span>{selectedCountry.flag} <span className="hidden xs:inline">{selectedCountry.name}</span></span>
+                <span className="opacity-30">|</span>
+                <span className="font-mono">{getFormatTime(selectedCountry.timezone)}</span>
+                <ChevronDown size={12} className={dropdownOpen ? 'rotate-180' : ''} />
+              </button>
+
+              {dropdownOpen && (
+                <div className="absolute top-full right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-gray-100 overflow-hidden z-[60]">
+                  {countries.map((c) => (
+                    <button
+                      key={c.name}
+                      onClick={() => { setSelectedCountry(c); setDropdownOpen(false); }}
+                      className="w-full flex items-center justify-between px-3 py-2 hover:bg-gray-50 text-left"
+                      style={{ backgroundColor: selectedCountry.name === c.name ? c.bg : '' }}
+                    >
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm">{c.flag}</span>
+                        <span className="font-bold text-xs" style={{ color: selectedCountry.name === c.name ? c.color : '#374151' }}>{c.name}</span>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Mobile Menu Trigger */}
+            <button 
+              onClick={() => setIsOpen(true)} 
+              className="lg:hidden p-2 text-gray-700 hover:bg-gray-100 rounded-lg transition"
+            >
+              <Menu size={24} />
+            </button>
+          </div>
         </div>
       </header>
+
+      {/* MOBILE DRAWER (Fixed) */}
+      <div className={`fixed inset-0 z-[100] ${isOpen ? "visible" : "invisible"}`}>
+        <div 
+          className={`absolute inset-0 bg-black/30 backdrop-blur-sm transition-opacity duration-300 ${isOpen ? "opacity-100" : "opacity-0"}`} 
+          onClick={() => setIsOpen(false)} 
+        />
+        <aside className={`absolute right-0 top-0 h-full w-[280px] bg-white shadow-2xl transition-transform duration-300 ${isOpen ? "translate-x-0" : "translate-x-full"}`}>
+          <div className="p-6">
+            <div className="flex items-center justify-between mb-8">
+              <span className="font-black text-gray-900 tracking-tight">NAVIGATION</span>
+              <button onClick={() => setIsOpen(false)} className="p-2 bg-gray-50 rounded-full text-gray-500"><X size={20} /></button>
+            </div>
+            <nav className="flex flex-col gap-6">
+              {navLinks.map((link) => (
+                <Link 
+                  key={link.name} 
+                  to={link.href} 
+                  onClick={() => setIsOpen(false)} 
+                  className="text-lg font-bold text-gray-800 hover:text-black flex items-center justify-between group"
+                >
+                  {link.name}
+                  <span className="w-1.5 h-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-all" style={{ backgroundColor: selectedCountry.color }} />
+                </Link>
+              ))}
+            </nav>
+          </div>
+        </aside>
+      </div>
     </>
   );
 };
