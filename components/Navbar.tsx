@@ -809,6 +809,195 @@
 
 // export default Navbar;
 
+// import React, { useEffect, useState, useRef } from "react";
+// import { Menu, X, Globe, ChevronDown } from "lucide-react";
+// import { Link } from "react-router-dom";
+
+// /* ================= COUNTRY DATA ================= */
+// const countries = [
+//   { name: "India",     flag: "🇮🇳", timezone: "Asia/Kolkata",     color: "#f97316", bg: "#fff7ed", border: "#fed7aa" }, 
+//   { name: "USA",       flag: "🇺🇸", timezone: "America/New_York",   color: "#2563eb", bg: "#eff6ff", border: "#bfdbfe" },
+//   { name: "UK",        flag: "🇬🇧", timezone: "Europe/London",      color: "#dc2626", bg: "#fef2f2", border: "#fecaca" },
+//   { name: "Germany",   flag: "🇩🇪", timezone: "Europe/Berlin",      color: "#ca8a04", bg: "#fefce8", border: "#fde68a" },
+//   { name: "Australia", flag: "🇦🇺", timezone: "Australia/Sydney",   color: "#16a34a", bg: "#f0fdf4", border: "#bbf7d0" },
+//   { name: "Japan",     flag: "🇯🇵", timezone: "Asia/Tokyo",         color: "#db2777", bg: "#fdf2f8", border: "#fbcfe8" },
+//   { name: "UAE",       flag: "🇦🇪", timezone: "Asia/Dubai",         color: "#059669", bg: "#ecfdf5", border: "#a7f3d0" },
+// ];
+
+// /* ================= ANIMATED LOGO ================= */
+// const AnimatedLogo: React.FC<{ themeColor: string }> = ({ themeColor }) => {
+//   return (
+//     <div className="relative w-10 h-10 md:w-12 md:h-12 flex items-center justify-center shrink-0">
+//       <div className="tick-orbit absolute inset-0">
+//         <span className="tick top" style={{ borderColor: themeColor }} />
+//         <span className="tick right" />
+//         <span className="tick bottom" />
+//         <span className="tick left" />
+//       </div>
+//       <span className="relative z-10 font-extrabold text-black text-[10px] md:text-sm">B</span>
+//     </div>
+//   );
+// };
+
+// /* ================= NAVBAR ================= */
+// const Navbar: React.FC = () => {
+//   const [isOpen, setIsOpen] = useState(false);
+//   const [dropdownOpen, setDropdownOpen] = useState(false);
+//   const [selectedCountry, setSelectedCountry] = useState(countries[0]);
+//   const dropdownRef = useRef<HTMLDivElement>(null);
+
+//   const navLinks = [
+//     { name: "Home",      href: "/" },
+//     { name: "About",     href: "/about" },
+//     { name: "Services",  href: "/services" },
+//     { name: "Projects",  href: "/projects" },
+//     { name: "Contact",   href: "/contact" },
+//     { name: "Institute", href: "/institute" },
+//   ];
+
+//   const getFormatTime = (timezone: string) => {
+//     return new Date().toLocaleTimeString("en-US", {
+//       timeZone: timezone,
+//       hour: "2-digit",
+//       minute: "2-digit",
+//       hour12: true,
+//     });
+//   };
+
+//   useEffect(() => {
+//     const handler = (e: MouseEvent) => {
+//       if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+//         setDropdownOpen(false);
+//       }
+//     };
+//     document.addEventListener("mousedown", handler);
+//     return () => document.removeEventListener("mousedown", handler);
+//   }, []);
+
+//   return (
+//     <>
+//       <style>{`
+//         @keyframes rotateTicks { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+//         .tick-orbit { position: absolute; inset: 0; animation: rotateTicks 6s linear infinite; }
+//         .tick { 
+//           position: absolute; 
+//           width: 10px; 
+//           height: 16px; 
+//           border-right: 4px solid #000; 
+//           border-bottom: 4px solid #000; 
+//           border-radius: 1px; 
+//           transition: border-color 0.5s ease; 
+//         }
+//         @media (min-width: 768px) {
+//           .tick { width: 14px; height: 22px; border-right-width: 5px; border-bottom-width: 5px; }
+//         }
+//         .tick.top { top: 2px; left: 50%; transform: translateX(-50%) rotate(45deg); }
+//         .tick.right { right: 2px; top: 50%; transform: translateY(-50%) rotate(135deg); }
+//         .tick.bottom { bottom: 2px; left: 50%; transform: translateX(-50%) rotate(225deg); }
+//         .tick.left { left: 2px; top: 50%; transform: translateY(-50%) rotate(315deg); }
+//       `}</style>
+
+//       <header className="fixed top-0 w-full z-50 bg-white border-b border-gray-200 shadow-sm">
+//         <div className="w-full h-[3px] transition-all duration-500" style={{ backgroundColor: selectedCountry.color }} />
+
+//         <div className="max-w-7xl mx-auto px-4">
+//           <nav className="flex items-center justify-between h-16 md:h-20">
+            
+//             {/* LOGO */}
+//             <Link to="/" className="flex items-center gap-2 shrink-0">
+//               <AnimatedLogo themeColor={selectedCountry.color} />
+//               <span className="font-bold text-base md:text-lg tracking-tight">
+//                 <span className="text-black">BOLD</span>
+//                 <span style={{ color: selectedCountry.color }} className="transition-colors duration-500">VIBE</span>
+//               </span>
+//             </Link>
+
+//             {/* RIGHT GROUP */}
+//             <div className="flex items-center gap-2 md:gap-8">
+              
+//               {/* Desktop Nav Links */}
+//               <div className="hidden lg:flex items-center space-x-6">
+//                 {navLinks.map((link) => (
+//                   <Link key={link.name} to={link.href} className="text-black hover:opacity-70 text-sm font-bold transition whitespace-nowrap">
+//                     {link.name}
+//                   </Link>
+//                 ))}
+//               </div>
+
+//               {/* Country Selector (Positioned before Menu on Mobile) */}
+//               <div ref={dropdownRef} className="relative flex items-center">
+//                 <button
+//                   onClick={() => setDropdownOpen(!dropdownOpen)}
+//                   className="flex items-center gap-1.5 px-2 py-1 md:px-3 md:py-1.5 rounded-lg md:rounded-xl border-[1.5px] md:border-2 transition-all duration-500"
+//                   style={{ 
+//                     borderColor: selectedCountry.border,
+//                     backgroundColor: selectedCountry.bg,
+//                     color: selectedCountry.color 
+//                   }}
+//                 >
+//                   <Globe size={12} className="md:w-4 md:h-4" />
+//                   <div className="flex items-center gap-1 text-[9px] md:text-[13px] font-bold uppercase tracking-tight">
+//                     <span>{selectedCountry.flag}</span>
+//                     <span className="hidden sm:inline">{selectedCountry.name}</span>
+//                     <span className="opacity-30">|</span>
+//                     <span className="font-mono">{getFormatTime(selectedCountry.timezone)}</span>
+//                   </div>
+//                   <ChevronDown size={10} className={`md:w-3 md:h-3 transition-transform duration-300 ${dropdownOpen ? 'rotate-180' : ''}`} />
+//                 </button>
+
+//                 {dropdownOpen && (
+//                   <div className="absolute top-full right-0 mt-2 w-48 md:w-56 bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden z-[60]">
+//                     <div className="p-1 flex flex-col gap-0.5">
+//                       {countries.map((c) => (
+//                         <button
+//                           key={c.name}
+//                           onClick={() => { setSelectedCountry(c); setDropdownOpen(false); }}
+//                           className="flex items-center justify-between px-3 py-2 rounded-lg transition-all hover:bg-gray-50"
+//                           style={{ backgroundColor: selectedCountry.name === c.name ? c.bg : '' }}
+//                         >
+//                           <div className="flex items-center gap-2">
+//                             <span className="text-base">{c.flag}</span>
+//                             <span className="text-xs md:text-sm font-bold" style={{ color: selectedCountry.name === c.name ? c.color : '#374151' }}>{c.name}</span>
+//                           </div>
+//                           <span className="text-[9px] font-mono text-gray-400">{getFormatTime(c.timezone)}</span>
+//                         </button>
+//                       ))}
+//                     </div>
+//                   </div>
+//                 )}
+//               </div>
+
+//               {/* Mobile Menu Toggle */}
+//               <button onClick={() => setIsOpen(true)} className="lg:hidden text-black p-1">
+//                 <Menu size={24} />
+//               </button>
+//             </div>
+//           </nav>
+//         </div>
+//       </header>
+
+//       {/* MOBILE DRAWER */}
+//       <div className={`fixed inset-0 bg-black/40 z-[100] transition-opacity lg:hidden ${isOpen ? "opacity-100 visible" : "opacity-0 invisible"}`} onClick={() => setIsOpen(false)} />
+//       <aside className={`fixed top-0 right-0 h-full w-[260px] bg-white z-[110] transform transition-transform duration-300 lg:hidden ${isOpen ? "translate-x-0" : "translate-x-full"}`}>
+//         <div className="flex flex-col h-full p-6">
+//           <div className="flex items-center justify-between mb-8 border-b pb-4">
+//             <span className="font-bold text-lg">BOLD<span style={{ color: selectedCountry.color }}>VIBE</span></span>
+//             <button onClick={() => setIsOpen(false)}><X size={24} /></button>
+//           </div>
+//           <nav className="flex flex-col gap-6">
+//             {navLinks.map((link) => (
+//               <Link key={link.name} to={link.href} onClick={() => setIsOpen(false)} className="text-gray-900 hover:text-black text-lg font-bold transition-colors">{link.name}</Link>
+//             ))}
+//           </nav>
+//         </div>
+//       </aside>
+//     </>
+//   );
+// };
+
+// export default Navbar;
+
+
 import React, { useEffect, useState, useRef } from "react";
 import { Menu, X, Globe, ChevronDown } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -924,8 +1113,8 @@ const Navbar: React.FC = () => {
                 ))}
               </div>
 
-              {/* Country Selector (Positioned before Menu on Mobile) */}
-              <div ref={dropdownRef} className="relative flex items-center">
+              {/* Country Selector */}
+              <div ref={dropdownRef} className="relative flex items-center ml-auto">
                 <button
                   onClick={() => setDropdownOpen(!dropdownOpen)}
                   className="flex items-center gap-1.5 px-2 py-1 md:px-3 md:py-1.5 rounded-lg md:rounded-xl border-[1.5px] md:border-2 transition-all duration-500"
@@ -967,8 +1156,8 @@ const Navbar: React.FC = () => {
                 )}
               </div>
 
-              {/* Mobile Menu Toggle */}
-              <button onClick={() => setIsOpen(true)} className="lg:hidden text-black p-1">
+              {/* Mobile Menu Toggle - Added ml-1 for spacing */}
+              <button onClick={() => setIsOpen(true)} className="lg:hidden text-black p-1 ml-1">
                 <Menu size={24} />
               </button>
             </div>
