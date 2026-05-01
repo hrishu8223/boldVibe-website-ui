@@ -54,7 +54,9 @@ const Projects: React.FC = () => {
                   <img
                     src={project.images[0]}
                     alt={project.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    // className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-500"
+                                        className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-500"
+
                     onError={(e) => {
                       e.currentTarget.src = `https://via.placeholder.com/400x300/3b82f6/ffffff?text=${encodeURIComponent(project.title)}`;
                     }}

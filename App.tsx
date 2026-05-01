@@ -147,7 +147,7 @@ import WhatsAppFloat from "./components/WhatsAppFloat";
 import Institute from "./components/Institute";
 import ViewDetailProject from "./components/ViewDetailProject";
 import Apply from "./components/Apply";
-
+import Product from "./components/Products";
 /* ===== LANDING PAGE ===== */
 const LandingPage = () => {
   const location = useLocation();
@@ -195,7 +195,7 @@ const App: React.FC = () => {
         <Route path="/services" element={<LandingPage />} />
         <Route path="/projects" element={<LandingPage />} />
         <Route path="/contact" element={<LandingPage />} />
-
+<Route path="/products" element={<Product />} />
         <Route path="/institute" element={<Institute />} />
         <Route path="/projects/:slug" element={<ViewDetailProject />} />
       </Routes>

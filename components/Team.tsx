@@ -441,7 +441,7 @@ const Team: React.FC = () => {
       description:
         "Visionary leader driving innovation and growth. Passionate about building impactful software solutions.",
       tags: [],
-      // portfolio: "https://dinesh-rouge.vercel.app/",
+      portfolio: "https://dinesh-rouge.vercel.app/",
     },
     {
       id: 102,
@@ -452,7 +452,7 @@ const Team: React.FC = () => {
       description:
         "Tech enthusiast and problem solver, ensuring the team delivers cutting-edge solutions with excellence.",
       tags: [],
-      // portfolio: "https://example.com/vishal",
+      portfolio: "https://example.com/vishal",
     },
   ];
 
@@ -598,7 +598,7 @@ const Team: React.FC = () => {
             </div>
 
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-6">
-              Meet The <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Experts</span>
+              Meet The <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Directors</span>
             </h2>
 
             <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">
